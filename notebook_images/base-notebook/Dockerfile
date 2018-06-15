@@ -59,7 +59,7 @@ RUN groupadd wheel -g 11 && \
 USER $NB_UID
 
 # Setup work directory for backward-compatibility
-RUN mkdir /home/$NB_USER && \
+RUN mkdir -p /home/$NB_USER && \
     fix-permissions /home/$NB_USER
 
 # Install conda as applicant and check the md5 sum provided on the download site
@@ -102,7 +102,9 @@ ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
 # Add local files as late as possible to avoid cache busting
-COPY ml_assignment/ $HOME/
+ADD ml_assignment $HOME/ml_assignment
+RUN fix-permissions $HOME/ml_assignment
+
 COPY start.sh /usr/local/bin/
 COPY start-notebook.sh /usr/local/bin/
 COPY start-singleuser.sh /usr/local/bin/
