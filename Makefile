@@ -56,6 +56,11 @@ notebook_image:
 		--build-arg DOCKER_NOTEBOOK_IMAGE=$(DOCKER_NOTEBOOK_IMAGE) \
 		singleuser
 
+docker_image:
+	docker build -t $(BASE_NOTEBOOK_IMAGE) $(BASE_NOTEBOOK_LOCATION)
+	docker build -t $(CUSTOM_MINIMAL_NOTEBOOK_IMAGE) $(CUSTOM_MINIMAL_NOTEBOOK_LOCATION)
+	docker build -t $(CUSTOM_SCIPY_NOTEBOOK_IMAGE) $(CUSTOM_SCIPY_NOTEBOOK_LOCATION)
+
 build: check-files network volumes
 	docker-compose build
 
